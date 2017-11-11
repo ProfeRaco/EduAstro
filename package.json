@@ -25,7 +25,9 @@
     "nock": "8.x",
     "react": "^16.1.0",
     "react-dom": "^16.1.0",
-    "react-scripts": "1.0.17"
+    "react-scripts": "1.0.17",
+    "three": "^0.88.0",
+    "three-trackballcontrols": "0.0.6"
   },
   "scripts": {
     "predeploy": "npm run build",
