@@ -1,0 +1,41 @@
+{
+  "name": "eduastro",
+  "version": "0.0.1",
+  "description": "Learn astrodynamics with an interactive tool",
+  "main": "index.js",
+  "dependencies": {
+    "eslint": "^4.9.0",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-jsx-a11y": "^6.0.2",
+    "eslint-plugin-react": "^7.4.0"
+  },
+  "devDependencies": {
+    "eslint": "^4.9.0",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-jsx-a11y": "^6.0.2",
+    "eslint-plugin-react": "^7.4.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ProfeRaco/EduAstro.git"
+  },
+  "keywords": [
+    "education",
+    "astrodynamics",
+    "orbits",
+    "space",
+    "kerbal",
+    "ksp"
+  ],
+  "author": "Sebastia Ramon, Pep Rodeja",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ProfeRaco/EduAstro/issues"
+  },
+  "homepage": "https://github.com/ProfeRaco/EduAstro#readme"
+}
