@@ -37,6 +37,9 @@ class Body {
   }
 
   getPosition(epoch, refSystem) {
+    if (!this.centralBody) {
+      return new Coordinates('cartesian', null, 0, 0, 0, 0, 0, 0);
+    }
     const julian = (new JulianDate(epoch)).julian();
 
     const dat = _.find(this.ephemerides, d => d.JDTDB - julian < 30);
