@@ -1,15 +1,16 @@
 import * as THREE from 'three'
 
 class Orbit {
-  constructor(a, b, rotation, color) {
+  constructor(a, e, rotation, color) {
     this.a = a
-    this.b = b
+    this.e = e
     this.rotation = rotation
     this.color = color
   }
 
   createLine() {
-    const ellipseCurve = new THREE.EllipseCurve(0, 0, this.a, this.b)
+    const b = this.a * Math.sqrt(1 - (this.e ** 2));
+    const ellipseCurve = new THREE.EllipseCurve(0, 0, this.a, b)
     const ellipsePoints = ellipseCurve.getPoints(50)
     const ellipseGeometry = new THREE.BufferGeometry().setFromPoints(ellipsePoints)
     const ellipseMaterial = new THREE.LineBasicMaterial({ color: this.color })

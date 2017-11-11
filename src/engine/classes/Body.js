@@ -19,7 +19,7 @@ function newtonRaphson(fun, der, initial) {
 }
 
 class Body {
-  constructor(centralBody, ephemerides, data, description, textureFilename) {
+  constructor(centralBody, ephemerides, data, description, textureFilename, orbitColor) {
     this.centralBody = centralBody;
     this.ephemerides = ephemerides;
     this.mu = data.mu;
@@ -32,6 +32,7 @@ class Body {
     this.escapeVelocity = data.escapeVelocity; // km/s
     this.description = description;
     this.textureFilename = textureFilename;
+    this.orbitColor = orbitColor;
 
     this.computeRadiousOfInfluence();
   }
@@ -42,16 +43,20 @@ class Body {
     }
     const julian = (new JulianDate(epoch)).julian();
 
-    const dat = _.find(this.ephemerides, d => d.JDTDB - julian < 30);
+    const dat = _.find(this.ephemerides, d => Math.abs(d.JDTDB - julian) < 30);
 
     const DeltaT = (dat.JDTDB - julian) * 86400;
 
-    const n = Math.sqrt(this.centralBody.mu / (this.A ** 3)); // Mean angular momentum
+    const n = Math.sqrt(this.centralBody.mu / (dat.A ** 3)); // Mean angular momentum
 
     const fun = EA => ((EA - (dat.EC * Math.cos(EA))) / n) - DeltaT;
     const der = EA => (1 / n) - ((dat.EC / n) * Math.cos(EA));
     const EA = newtonRaphson(fun, der, 0);
-    const TA = Math.atan((Math.tan(EA / 2)) / (Math.sqrt((1 - dat.e) / (1 + dat.e))));
+    const TA = Math.atan((Math.tan(EA / 2)) / (Math.sqrt((1 - dat.EC) / (1 + dat.EC))));
+    // console.log('n', n)
+    // console.log('DeltaT', DeltaT)
+    // console.log('EA', EA)
+    // console.log('TA', TA)
 
     const coord = new Coordinates('keplerian', this.centralBody, dat.A, dat.EC, dat.IN, dat.OM, dat.W, TA);
 
