@@ -2,7 +2,10 @@ import React, { Component } from 'react'
 import * as THREE from 'three'
 import TrackballControls from 'three-trackballcontrols'
 
-class Scene extends Component {
+import Body from './Body'
+import Orbit from './Orbit'
+
+class Canvas extends Component {
 
   constructor(props) {
     super(props)
@@ -17,17 +20,19 @@ class Scene extends Component {
     this.renderer.setSize(window.innerWidth, window.innerHeight)
     document.body.appendChild(this.renderer.domElement)
 
-    const sphereGeometry = new THREE.SphereGeometry(0.25)
-    const sphereMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 })
-    this.cube = new THREE.Mesh(sphereGeometry, sphereMaterial)
-    this.scene.add(this.cube)
+    // const sun = new Body(0.25, [0, 0, 0], 0x00ff00)
+    // const sunMesh = sun.createMesh()
+    // this.scene.add(sunMesh)
+    const earth = new Body(0.05, [3, 0, 0], 0xffffff)
+    const earthMesh = earth.createMesh()
+    this.scene.add(earthMesh)
 
-    const ellipseCurve = new THREE.EllipseCurve(0, 0, 2, 3)
-    const ellipsePoints = ellipseCurve.getPoints(50)
-    const ellipseGeometry = new THREE.BufferGeometry().setFromPoints(ellipsePoints)
-    const ellipseMaterial = new THREE.LineBasicMaterial({ color: 0xff0000 })
-    const ellipse = new THREE.Line(ellipseGeometry, ellipseMaterial)
-    this.scene.add(ellipse)
+    const marsOrbit = new Orbit(2, 3, [0, 1, 1.57], 0xff0000)
+    const marsOrbitLine = marsOrbit.createLine()
+    this.scene.add(marsOrbitLine)
+    const earthOrbit = new Orbit(3, 4,[0, 0, 0], 0xffff00)
+    const earthOrbitLine = earthOrbit.createLine()
+    this.scene.add(earthOrbitLine)
 
     this.camera.position.z = 5
 
@@ -39,16 +44,12 @@ class Scene extends Component {
     this.controls.noZoom = false
     this.controls.staticMoving = false
     this.controls.dynamicDampingFactor = 0.3
-    
+
     this.animate()
   }
 
   animate() {
 		requestAnimationFrame( this.animate )
-
-		this.cube.rotation.x += 0.1
-		this.cube.rotation.y += 0.1
-
 		this.threeRender(this.scene, this.camera)
     this.controls.update()
   }
@@ -65,4 +66,4 @@ class Scene extends Component {
 
 }
 
-export default Scene
+export default Canvas
