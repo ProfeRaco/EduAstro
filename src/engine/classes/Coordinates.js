@@ -1,9 +1,9 @@
 
 
 class Coordinates {
-  constructor(type, planet, a1, a2, a3, a4, a5, a6, refSystem) {
-    this.planet = planet;
-    this.refSystem = refSystem || planet;
+  constructor(type, body, a1, a2, a3, a4, a5, a6, refSystem) {
+    this.body = body;
+    this.refSystem = refSystem || body;
 
     switch (type) {
       case 'keplerian':
@@ -27,10 +27,14 @@ class Coordinates {
       default:
         throw new Error('Cannot create "Coordinates" element, unknown coordinates type');
     }
+
+    this.EA = 2 * Math.arctan(Math.sqrt(Math.sqrt((1 - this.EC) /
+      (1 + this.EC))) * Math.tan(this.TA)); // Eccentric Anomaly
+    this.n = Math.sqrt(body.mu / (this.A ** 3)); // Mean angular momentum
   }
 
   convertKeplerianToCartesian(A, EC, IN, OM, W, TA) {
-    const { mu } = this.planet;
+    const { mu } = this.body;
 
     let p = A * (1 - (EC * EC));
     p = Math.max(p, 1.e-30); // safety measure for the square root
@@ -65,7 +69,7 @@ class Coordinates {
   }
 
   convertCartesianToKeplerian(X, Y, Z, VX, VY, VZ) {
-    const { mu } = this.planet;
+    const { mu } = this.body;
 
     const twopi = Math.PI + Math.PI;
 
