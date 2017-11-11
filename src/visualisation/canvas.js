@@ -14,20 +14,20 @@ class Canvas extends Component {
     this.threeRender = this.threeRender.bind(this)
 
     this.scene = new THREE.Scene()
-    this.camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 )
+    this.camera = new THREE.PerspectiveCamera( 45, window.innerWidth/window.innerHeight, 0.1, 1000 )
 
     this.renderer = new THREE.WebGLRenderer()
     this.renderer.setSize(window.innerWidth, window.innerHeight)
     document.body.appendChild(this.renderer.domElement)
 
-    // const sun = new Body(0.25, [0, 0, 0], 0x00ff00)
-    // const sunMesh = sun.createMesh()
-    // this.scene.add(sunMesh)
-    const earth = new Body(0.05, [3, 0, 0], 0xffffff)
+    const sun = new Body(0.25, [0, 0, 0], 'img/textures/sun.jpg')
+    const sunMesh = sun.createMesh()
+    this.scene.add(sunMesh)
+    const earth = new Body(0.05, [3, 0, 0], 'img/textures/earth.jpg')
     const earthMesh = earth.createMesh()
     this.scene.add(earthMesh)
 
-    const marsOrbit = new Orbit(2, 3, [0, 1, 1.57], 0xff0000)
+    const marsOrbit = new Orbit(2, 3, [0, 0, 0], 0xff0000)
     const marsOrbitLine = marsOrbit.createLine()
     this.scene.add(marsOrbitLine)
     const earthOrbit = new Orbit(3, 4,[0, 0, 0], 0xffff00)

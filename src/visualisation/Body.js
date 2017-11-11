@@ -1,16 +1,16 @@
 import * as THREE from 'three'
 
 class Body {
-  constructor(radius, position, color) {
+  constructor(radius, position, textureFilename) {
     this.radius = radius
     this.position = position
-    this.color = color
+    this.textureFilename = textureFilename
   }
 
   createMesh() {
-    const texture = new THREE.TextureLoader().load('img/textures/earth.jpg')
+    const texture = new THREE.TextureLoader().load(this.textureFilename)
     const sphereGeometry = new THREE.SphereGeometry(this.radius, 20, 20)
-    const sphereMaterial = new THREE.MeshBasicMaterial({ color: this.color, map: texture })
+    const sphereMaterial = new THREE.MeshBasicMaterial({ map: texture })
     const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial)
     sphere.position.set(this.position[0], this.position[1], this.position[2])
     return sphere
