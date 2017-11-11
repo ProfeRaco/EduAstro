@@ -22,6 +22,7 @@
     "gh-pages": "^1.0.0",
     "julian-date": "^1.0.1",
     "lodash": "^4.17.4",
+    "material-ui": "^0.19.4",
     "mocha": "^4.0.1",
     "nock": "8.x",
     "react": "^16.1.0",
