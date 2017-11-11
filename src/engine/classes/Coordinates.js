@@ -34,6 +34,10 @@ class Coordinates {
   }
 
   convertKeplerianToCartesian(A, EC, IN, OM, W, TA) {
+    if (!this.body) {
+      return [0, 0, 0, 0, 0, 0];
+    }
+
     const { mu } = this.body;
 
     let p = A * (1 - (EC * EC));
@@ -69,6 +73,10 @@ class Coordinates {
   }
 
   convertCartesianToKeplerian(X, Y, Z, VX, VY, VZ) {
+    if (!this.body) {
+      return [0, 0, 0, 0, 0, 0];
+    }
+
     const { mu } = this.body;
 
     const twopi = Math.PI + Math.PI;
