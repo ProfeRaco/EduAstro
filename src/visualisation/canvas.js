@@ -5,6 +5,8 @@ import TrackballControls from 'three-trackballcontrols'
 import Body from './Body'
 import Orbit from './Orbit'
 
+import bodies from '../engine/initialize'
+
 class Canvas extends Component {
 
   constructor(props) {
@@ -34,12 +36,17 @@ class Canvas extends Component {
     // const helper = new THREE.CameraHelper( light.shadow.camera )
     // this.scene.add( helper )
 
-    const sun = new Body(0.25, [0, 0, 0], 'img/textures/sun.jpg')
-    const sunMesh = sun.createMesh()
-    this.scene.add(sunMesh)
-    const earth = new Body(0.05, [3, 0, 0], 'img/textures/earth.jpg')
-    const earthMesh = earth.createMesh()
-    this.scene.add(earthMesh)
+    bodies.forEach((el, i) => {
+      const bdy = new Body(0.25, [i, 0, 0], el.textureFilename)
+      const bdyMesh = bdy.createMesh()
+      this.scene.add(bdyMesh)
+    })
+    // const sun = new Body(0.25, [0, 0, 0], 'img/textures/sun.jpg')
+    // const sunMesh = sun.createMesh()
+    // this.scene.add(sunMesh)
+    // const earth = new Body(0.05, [3, 0, 0], 'img/textures/earth.jpg')
+    // const earthMesh = earth.createMesh()
+    // this.scene.add(earthMesh)
 
     const marsOrbit = new Orbit(2, 3, [0, 0, 0], 0xff0000)
     const marsOrbitLine = marsOrbit.createLine()

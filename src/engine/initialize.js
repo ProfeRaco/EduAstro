@@ -2,18 +2,19 @@
 import Body from './classes/Body';
 
 // Get data from the orbital_elements
-import mercuryOE from '../../orbital_elements/json/mercury.json';
-import venusOE from '../../orbital_elements/json/venus.json';
-import earthOE from '../../orbital_elements/json/earth.json';
-import marsOE from '../../orbital_elements/json/mars.json';
-import jupiterOE from '../../orbital_elements/json/jupiter.json';
-import saturnOE from '../../orbital_elements/json/saturn.json';
-import uranusOE from '../../orbital_elements/json/uranus.json';
-import neptuneOE from '../../orbital_elements/json/neptune.json';
-import plutoOE from '../../orbital_elements/json/pluto.json';
+import mercuryOE from '../orbital_elements/json/mercury.json';
+import venusOE from '../orbital_elements/json/venus.json';
+import earthOE from '../orbital_elements/json/earth.json';
+import marsOE from '../orbital_elements/json/mars.json';
+import jupiterOE from '../orbital_elements/json/jupiter.json';
+import saturnOE from '../orbital_elements/json/saturn.json';
+import uranusOE from '../orbital_elements/json/uranus.json';
+import neptuneOE from '../orbital_elements/json/neptune.json';
+import plutoOE from '../orbital_elements/json/pluto.json';
 
 // Create Bodys
 const Sun = new Body(
+  null,
   null,
   {
     mu: 1.3271244004193938E11,
@@ -26,8 +27,10 @@ const Sun = new Body(
     escapeVelocity: 617.7,
   },
   '',
+  'img/textures/sun.jpg',
 );
 const Mercury = new Body(
+  Sun,
   mercuryOE,
   {
     mu: 22032.09,
@@ -40,8 +43,10 @@ const Mercury = new Body(
     escapeVelocity: 4.435,
   },
   '',
+  'img/textures/mercury.jpg',
 );
 const Venus = new Body(
+  Sun,
   venusOE,
   {
     mu: 324858.63,
@@ -54,8 +59,10 @@ const Venus = new Body(
     escapeVelocity: 10.361,
   },
   '',
+  'img/textures/venus.jpg',
 );
 const Earth = new Body(
+  Sun,
   earthOE,
   {
     mu: 398600.440,
@@ -68,8 +75,10 @@ const Earth = new Body(
     escapeVelocity: 11.186,
   },
   '',
+  'img/textures/earth.jpg',
 );
 const Mars = new Body(
+  Sun,
   marsOE,
   {
     mu: 42828.3,
@@ -82,8 +91,10 @@ const Mars = new Body(
     escapeVelocity: 5.027,
   },
   '',
+  'img/textures/mars.jpg',
 );
 const Jupiter = new Body(
+  Sun,
   jupiterOE,
   {
     mu: 126686511,
@@ -96,8 +107,10 @@ const Jupiter = new Body(
     escapeVelocity: 59.5,
   },
   '',
+  'img/textures/jupiter.jpg',
 );
 const Saturn = new Body(
+  Sun,
   saturnOE,
   {
     mu: 37931207.8,
@@ -110,8 +123,10 @@ const Saturn = new Body(
     escapeVelocity: 35.5,
   },
   '',
+  'img/textures/suturn.jpg',
 );
 const Uranus = new Body(
+  Sun,
   uranusOE,
   {
     mu: 5793966,
@@ -124,8 +139,10 @@ const Uranus = new Body(
     escapeVelocity: 21.3,
   },
   '',
+  'img/textures/uranus.jpg',
 );
 const Neptune = new Body(
+  Sun,
   neptuneOE,
   {
     mu: 6835107,
@@ -138,8 +155,10 @@ const Neptune = new Body(
     escapeVelocity: 23.5,
   },
   '',
+  'img/textures/neptune.jpg',
 );
 const Pluto = new Body(
+  Sun,
   plutoOE,
   {
     mu: 872.4,
@@ -152,6 +171,9 @@ const Pluto = new Body(
     escapeVelocity: 1.21,
   },
   '',
+  'img/textures/pluto.jpg',
 );
 
-export { Sun, Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, Neptune, Pluto };
+const bodies = [Sun, Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, Neptune, Pluto];
+
+export default { bodies };

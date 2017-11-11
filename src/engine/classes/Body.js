@@ -5,7 +5,7 @@ import _ from 'lodash';
 import Coordinates from './Coordinates';
 
 class Body {
-  constructor(centralBody, ephemerides, data, description) {
+  constructor(centralBody, ephemerides, data, description, textureFilename) {
     this.centralBody = centralBody;
     this.ephemerides = ephemerides;
     this.mu = data.mu;
@@ -17,6 +17,7 @@ class Body {
     this.sideralRotationPeriod = data.sideralRotationPeriod; // days
     this.escapeVelocity = data.escapeVelocity; // km/s
     this.description = description;
+    this.textureFilename = textureFilename;
 
     this.computeRadiousOfInfluence();
   }

@@ -10,7 +10,7 @@ class Body {
   createMesh() {
     const texture = new THREE.TextureLoader().load(this.textureFilename)
     const sphereGeometry = new THREE.SphereGeometry(this.radius, 20, 20)
-    let sphereMaterial = new THREE.MeshBasicMaterial({ map: texture })
+    const sphereMaterial = new THREE.MeshBasicMaterial({ map: texture })
     // if (this.position[0] === 0 && this.position[1] === 0 && this.position[2] === 0) {
     //   sphereMaterial = new THREE.MeshBasicMaterial({ map: texture })
     // } else {

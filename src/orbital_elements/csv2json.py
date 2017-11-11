@@ -13,14 +13,16 @@ for f in os.listdir(pathRead):
 
     fid_write.write('[\n')
 
-    for line in fid:
+    string2Write = ''
+
+    for (i, line) in enumerate(fid):
 
         if line.count('$$EOE') > 0:
             inOrbitalElements = False
 
         if inOrbitalElements:
 
-            fid_write.write('{')
+            string2Write = string2Write + '{'
 
             orbitalElementsArray = line.split(',')
 
@@ -39,26 +41,27 @@ for f in os.listdir(pathRead):
             # AD = orbitalElementsArray[12].strip()
             # PR = orbitalElementsArray[13].strip()
 
-            fid_write.write('"JDTDB": ' + JDTDB + ', ')
-            # fid_write.write('"TDB": "' + TDB + '", ')
-            fid_write.write('"EC": ' + EC + ', ')
-            # fid_write.write('"QR": ' + QR + ', ')
-            fid_write.write('"IN": ' + IN + ', ')
-            fid_write.write('"OM": ' + OM + ', ')
-            fid_write.write('"W": ' + W + ', ')
-            # fid_write.write('"Tp": ' + Tp + ', ')
-            # fid_write.write('"N": ' + N + ', ')
-            # fid_write.write('"MA": ' + MA + ', ')
-            fid_write.write('"TA": ' + TA + ', ')
-            fid_write.write('"A": ' + A + ', ')
-            # fid_write.write('"AD": ' + AD + ', ')
-            # fid_write.write('"PR": ' + PR + ', ')
+            string2Write = string2Write + '"JDTDB": ' + JDTDB + ','
+            # fid_write.write('"TDB": "' + TDB + '",')
+            string2Write = string2Write + '"EC": ' + EC + ','
+            # fid_write.write('"QR": ' + QR + ',')
+            string2Write = string2Write + '"IN": ' + IN + ','
+            string2Write = string2Write + '"OM": ' + OM + ','
+            string2Write = string2Write + '"W": ' + W + ','
+            # fid_write.write('"Tp": ' + Tp + ',')
+            # fid_write.write('"N": ' + N + ',')
+            # fid_write.write('"MA": ' + MA + ',')
+            string2Write = string2Write + '"TA": ' + TA + ','
+            string2Write = string2Write + '"A": ' + A
+            # fid_write.write('"AD": ' + AD + ',')
+            # fid_write.write('"PR": ' + PR + ',')
 
-            fid_write.write('}\n')
+            string2Write = string2Write + '},\n'
 
         if line.count('$$SOE') > 0:
             inOrbitalElements = True
 
+    fid_write.write(string2Write[:-2] + '\n')
     fid_write.write(']')
     fid.close()
     fid_write.close()
