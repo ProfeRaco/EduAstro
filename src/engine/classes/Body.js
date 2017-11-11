@@ -70,7 +70,7 @@ class Body {
 
   computeRadiousOfInfluence() {
     if (this.centralBody) {
-      this.radiousInfluence = this.getPosition(new Date()).a * (this.mu / this.centralBody.mu);
+      this.radiousInfluence = this.getPosition(new Date()).A * (this.mu / this.centralBody.mu);
     } else {
       this.radiousInfluence = Infinity;
     }
