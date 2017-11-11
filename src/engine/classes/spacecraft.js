@@ -18,11 +18,11 @@ class Spacecraft {
   addManouvre() {
     
   }
-  
+
   removeManouvre() {
     
   }
-  
+
   changeManouvre() {
     
   }

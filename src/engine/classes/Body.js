@@ -10,6 +10,8 @@ class Body {
     this.data = data;
     this.mu = mu;
     this.description = description;
+
+    this.computeRadiousOfInfluence();
   }
 
   getPosition(epoch, refSystem) {
@@ -34,6 +36,14 @@ class Body {
     }
 
     return this.getPosition(epoch, refSystem);
+  }
+
+  computeRadiousOfInfluence() {
+    if (this.centralBody) {
+      this.radiousInfluence = this.getPosition(new Date()).a * (this.mu / this.centralBody.mu);
+    } else {
+      this.radiousInfluence = Infinity;
+    }
   }
 }
 
