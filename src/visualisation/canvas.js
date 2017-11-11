@@ -18,7 +18,21 @@ class Canvas extends Component {
 
     this.renderer = new THREE.WebGLRenderer()
     this.renderer.setSize(window.innerWidth, window.innerHeight)
+    // this.renderer.shadowMap.enabled = true
+    // this.renderer.shadowMap.type = THREE.PCFSoftShadowMap
     document.body.appendChild(this.renderer.domElement)
+
+    // const light = new THREE.PointLight(0xffff00, 1, 0, 2)
+    // light.position.set(0, 0, 0)
+    // light.castShadow = true
+    // light.shadow.mapSize.width = 2048
+    // light.shadow.mapSize.height = 1024
+    // light.shadow.camera.near = 0.5
+    // light.shadow.camera.far = 500
+    // this.scene.add(light)
+
+    // const helper = new THREE.CameraHelper( light.shadow.camera )
+    // this.scene.add( helper )
 
     const sun = new Body(0.25, [0, 0, 0], 'img/textures/sun.jpg')
     const sunMesh = sun.createMesh()
