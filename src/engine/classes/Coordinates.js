@@ -1,8 +1,9 @@
 
 
 class Coordinates {
-  constructor(type, planet, a1, a2, a3, a4, a5, a6) {
+  constructor(type, planet, a1, a2, a3, a4, a5, a6, refSystem) {
     this.planet = planet;
+    this.refSystem = refSystem || planet;
 
     switch (type) {
       case 'keplerian':
@@ -137,6 +138,17 @@ class Coordinates {
     this.OM = OM;
     this.W = W;
     this.TA = TA;
+  }
+
+  changeReferenceSystem(refSystem) {
+    this.X = refSystem.X + this.X;
+    this.Y = refSystem.Y + this.Y;
+    this.Z = refSystem.Z + this.Z;
+    this.VX = refSystem.VX + this.VX;
+    this.VY = refSystem.VY + this.VY;
+    this.VZ = refSystem.VZ + this.VZ;
+
+    return this;
   }
 }
 

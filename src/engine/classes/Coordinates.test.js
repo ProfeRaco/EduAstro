@@ -3,11 +3,11 @@ require('babel-polyfill');
 const { expect } = require('chai');
 
 const Coordinates = require('./Coordinates').default;
-const Planet = require('./Planet').default;
+const Body = require('./Body').default;
 
 
 describe('Coordinates', () => {
-  const sun = new Planet(null, null, 1.3271244004193938E11, 'SUN');
+  const sun = new Body(null, null, 1.3271244004193938E11, 'SUN');
 
   describe('#given keplerian coordinates', () => {
     it('should transform given coordinates #1', (done) => {
