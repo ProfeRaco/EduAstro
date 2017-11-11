@@ -5,7 +5,7 @@ import TrackballControls from 'three-trackballcontrols'
 import Body from './Body'
 import Orbit from './Orbit'
 
-import bodies from '../engine/initialize'
+import { bodies } from '../engine/initialize'
 
 class Canvas extends Component {
 

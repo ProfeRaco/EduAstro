@@ -48,7 +48,7 @@ class Body {
     const fun = EA => ((EA - (dat.EC * Math.cos(EA))) / n) - DeltaT;
     const der = EA => (1 / n) - ((dat.EC / n) * Math.cos(EA));
     const EA = newtonRaphson(fun, der, 0);
-    const TA = Math.arctan((Math.tan(EA / 2)) / (Math.sqrt((1 - dat.e) / (1 + dat.e))));
+    const TA = Math.atan((Math.tan(EA / 2)) / (Math.sqrt((1 - dat.e) / (1 + dat.e))));
 
     const coord = new Coordinates('keplerian', this.centralBody, dat.A, dat.EC, dat.IN, dat.OM, dat.W, TA);
 

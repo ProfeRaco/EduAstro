@@ -28,7 +28,7 @@ class Coordinates {
         throw new Error('Cannot create "Coordinates" element, unknown coordinates type');
     }
 
-    this.EA = 2 * Math.arctan(Math.sqrt(Math.sqrt((1 - this.EC) /
+    this.EA = 2 * Math.atan(Math.sqrt(Math.sqrt((1 - this.EC) /
       (1 + this.EC))) * Math.tan(this.TA)); // Eccentric Anomaly
     this.n = Math.sqrt(body.mu / (this.A ** 3)); // Mean angular momentum
   }

@@ -10,7 +10,6 @@ import jupiterOE from '../orbital_elements/json/jupiter.json';
 import saturnOE from '../orbital_elements/json/saturn.json';
 import uranusOE from '../orbital_elements/json/uranus.json';
 import neptuneOE from '../orbital_elements/json/neptune.json';
-import plutoOE from '../orbital_elements/json/pluto.json';
 
 // Create Bodys
 const Sun = new Body(
@@ -123,7 +122,7 @@ const Saturn = new Body(
     escapeVelocity: 35.5,
   },
   '',
-  'img/textures/suturn.jpg',
+  'img/textures/saturn.jpg',
 );
 const Uranus = new Body(
   Sun,
@@ -157,23 +156,7 @@ const Neptune = new Body(
   '',
   'img/textures/neptune.jpg',
 );
-const Pluto = new Body(
-  Sun,
-  plutoOE,
-  {
-    mu: 872.4,
-    radious: 1195,
-    density: 1.83,
-    albedo: 0.3,
-    surfaceGravity: 0.611,
-    sideralRotationPeriod: 0,
-    sideralOrbitPeriod: 249.58932,
-    escapeVelocity: 1.21,
-  },
-  '',
-  'img/textures/pluto.jpg',
-);
 
-const bodies = [Sun, Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, Neptune, Pluto];
+const bodies = [Sun, Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, Neptune];
 
-export default { bodies };
+export { bodies };
