@@ -18,9 +18,7 @@
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-jsx-a11y": "^6.0.2",
     "eslint-plugin-react": "^7.4.0",
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "eject": "react-scripts eject",
+    "gh-pages": "^1.0.0",
     "mocha": "^4.0.1",
     "nock": "8.x",
     "react": "^16.1.0",
@@ -28,11 +26,14 @@
     "react-scripts": "1.0.17"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "test": "mocha \"./src/**/*.test.js\" --compilers js:babel-core/register",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "eject": "react-scripts eject"
   },
+  "homepage": "https://proferaco.github.io/EduAstro/",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ProfeRaco/EduAstro.git"
@@ -49,6 +50,5 @@
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/ProfeRaco/EduAstro/issues"
-  },
-  "homepage": "https://github.com/ProfeRaco/EduAstro#readme"
+  }
 }

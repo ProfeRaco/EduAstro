@@ -7,6 +7,10 @@ class Planet {
     this.mu = mu;
     this.description = description;
   }
+  
+  getAbsolutePosition(epoch) {
+    
+  }
 }
 
 export default Planet;

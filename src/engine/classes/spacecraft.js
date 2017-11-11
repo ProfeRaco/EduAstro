@@ -14,6 +14,18 @@ class Spacecraft {
       },
     });
   }
+
+  addManouvre() {
+    
+  }
+  
+  removeManouvre() {
+    
+  }
+  
+  changeManouvre() {
+    
+  }
 }
 
 export default Spacecraft;
