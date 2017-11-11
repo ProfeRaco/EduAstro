@@ -37,7 +37,9 @@ class Canvas extends Component {
     // this.scene.add( helper )
 
     bodies.forEach((el, i) => {
-      const bdy = new Body(0.25, [i, 0, 0], el.textureFilename)
+      const bdyPosition = el.getAbsolutPosition()
+      console.log(bdyPosition)
+      const bdy = new Body(el.radiousBody/60268, [i, 0, 0], el.textureFilename)
       const bdyMesh = bdy.createMesh()
       this.scene.add(bdyMesh)
     })
