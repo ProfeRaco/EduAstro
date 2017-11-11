@@ -5,10 +5,17 @@ import _ from 'lodash';
 import Coordinates from './Coordinates';
 
 class Body {
-  constructor(centralBody, data, mu, description) {
+  constructor(centralBody, ephemerides, data, description) {
     this.centralBody = centralBody;
-    this.data = data;
-    this.mu = mu;
+    this.ephemerides = ephemerides;
+    this.mu = data.mu;
+    this.radiousBody = data.radious; // km
+    this.density = data.density; // g/cm3
+    this.albedo = data.albedo;
+    this.surfaceGravity = data.surfaceGravity; // m/s2
+    this.sideralOrbitPeriod = data.sideralOrbitPeriod; // yrs
+    this.sideralRotationPeriod = data.sideralRotationPeriod; // days
+    this.escapeVelocity = data.escapeVelocity; // km/s
     this.description = description;
 
     this.computeRadiousOfInfluence();
@@ -17,7 +24,9 @@ class Body {
   getPosition(epoch, refSystem) {
     const julian = (new JulianDate(epoch)).julian();
 
-    const dat = _.find(this.data, d => d.JDTDB - julian < 30);
+    const dat = _.find(this.ephemerides, d => d.JDTDB - julian < 30);
+
+    const DeltaT = dat.JDTDB - julian;
 
     const coord = new Coordinates('keplerian', this.centralBody, dat.A, dat.EC, dat.IN, dat.OM, dat.W, dat.TA);
 
