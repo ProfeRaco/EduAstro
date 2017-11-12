@@ -14,6 +14,9 @@ class App extends Component {
         playing: false,
         speed: 500000,
         epoch: new Date(),
+        spacecraft: {
+          initialBody: 0,
+        },
       },
     };
 

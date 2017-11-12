@@ -15,7 +15,9 @@ class Orbit {
     const ellipseGeometry = new THREE.BufferGeometry().setFromPoints(ellipsePoints)
     const ellipseMaterial = new THREE.LineBasicMaterial({ color: this.color })
     const ellipse = new THREE.Line(ellipseGeometry, ellipseMaterial)
-    const eulerRotation = new THREE.Euler(this.rotation[0], this.rotation[1], this.rotation[2], 'XYZ')
+    let eulerRotation = new THREE.Euler(this.rotation[0], 0, this.rotation[1], 'XZY')
+    ellipse.setRotationFromEuler(eulerRotation)
+    eulerRotation = new THREE.Euler(0, 0, this.rotation[2], 'ZXY')
     ellipse.setRotationFromEuler(eulerRotation)
     return ellipse
   }

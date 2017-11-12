@@ -77,14 +77,21 @@ class Canvas extends Component {
     bodies.forEach((el, i) => {
       global.scaleFactor = 60268;
       const bdyPosition = el.getAbsolutPosition(new Date());
-      const bdyRadius = el.radiousBody / global.scaleFactor;
+      const bdyRadius = el.radiousBody / global.scaleFactor * 100;
       const xyzPosition = [bdyPosition.X / global.scaleFactor, bdyPosition.Y / global.scaleFactor, bdyPosition.Z / global.scaleFactor];
       const bdy = new Body(bdyRadius, xyzPosition, el.textureFilename);
       const bdyMesh = bdy.createMesh();
       el.attatchMesh(bdyMesh);
       this.scene.add(bdyMesh);
 
-      const orbit = new Orbit(bdyPosition.A / global.scaleFactor, bdyPosition.EC, [0, 90, 0], el.orbitColor);
+      const radFactor = Math.PI / 180;
+
+      const orbit = new Orbit(
+        bdyPosition.A / global.scaleFactor,
+        bdyPosition.EC,
+        [bdyPosition.IN * radFactor, bdyPosition.W * radFactor, bdyPosition.OM * radFactor],
+        el.orbitColor
+      );
       const orbitLine = orbit.createLine();
       this.scene.add(orbitLine);
 
