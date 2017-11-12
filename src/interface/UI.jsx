@@ -10,8 +10,12 @@ import {
 } from 'material-ui/styles/colors';
 import { fade } from 'material-ui/utils/colorManipulator';
 
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import ContentAdd from 'material-ui/svg-icons/content/add';
+
 import Menu from './menu/Menu';
 import TopBar from './topbar/TopBar';
+import AddSpacecraftDialog from './dialog/AddSpacecraftDialog'
 
 const theme = {
   fontFamily: 'Roboto, sans-serif',
@@ -58,6 +62,14 @@ function UI(props) {
             updateData={props.updateData}
           />
         </div>
+        <div
+          style={{ position: 'fixed', zIndex: 10, left: 10, bottom: 10 }}
+        >
+          <FloatingActionButton onClick={() => { props.updateData({ dialogOpened: true }) }}>
+            <ContentAdd />
+          </FloatingActionButton>
+        </div>
+        <AddSpacecraftDialog {...props} />
       </div>
     </MuiThemeProvider>
   );

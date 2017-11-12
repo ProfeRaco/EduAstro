@@ -3,7 +3,6 @@ import React from 'react';
 
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
-import TextField from 'material-ui/TextField';
 
 function Details(props) {
   console.log('props', props, props.data.bodies)
@@ -16,7 +15,7 @@ function Details(props) {
         fullWidth
       >
         {props.data.bodies.map((item, i) => (
-          <MenuItem value={i} primaryText={item.name} />
+          <MenuItem key={item.name} value={i} primaryText={item.name} />
         ))}
       </SelectField>
       <SelectField
@@ -26,7 +25,7 @@ function Details(props) {
         fullWidth
       >
         {props.data.bodies.map((item, i) => (
-          <MenuItem value={i} primaryText={item.name} />
+          <MenuItem key={item.name} value={i} primaryText={item.name} />
         ))}
       </SelectField>
       {(() => {
