@@ -86,7 +86,7 @@ class Canvas extends Component {
     this.pastTime = currentTime;
 
     if (this.props.data.playing) {
-      this.props.updateData({ epoch: new Date(this.props.data.epoch.valueOf() + deltaTime)});
+      this.props.updateData({ epoch: this.props.data.epoch.setTime(this.props.data.epoch.valueOf() + deltaTime)});
     }
 
     requestAnimationFrame(this.animate);
