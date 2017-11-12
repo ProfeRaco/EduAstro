@@ -19,6 +19,16 @@ function Details(props) {
           <MenuItem value={i} primaryText={item.name} />
         ))}
       </SelectField>
+      <SelectField
+        floatingLabelText="Selected element:"
+        value={props.data.selectedBody}
+        onChange={(e, i, value) => props.updateData({ selectedBody: value })}
+        fullWidth
+      >
+        {props.data.bodies.map((item, i) => (
+          <MenuItem value={i} primaryText={item.name} />
+        ))}
+      </SelectField>
       {(() => {
         const selectedBody = props.data.bodies[props.data.selectedBody];
         if (selectedBody.isBody) {
