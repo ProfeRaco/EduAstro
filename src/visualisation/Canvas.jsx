@@ -99,6 +99,14 @@ class Canvas extends Component {
   animate(currentTime) {
     requestAnimationFrame(this.animate);
     this.threeRender(this.scene, this.camera, currentTime);
+    const bPos = bodies[this.props.data.centralBody].getAbsolutPosition(new Date());
+    const xyzBP = [
+      bPos.X / global.scaleFactor,
+      bPos.Y / global.scaleFactor,
+      bPos.Z / global.scaleFactor
+    ];
+    const vector = new THREE.Vector3(xyzBP[0], xyzBP[1], xyzBP[2]);
+    this.controls.target = vector
     this.controls.update();
   }
 
