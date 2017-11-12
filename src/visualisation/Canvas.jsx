@@ -127,6 +127,42 @@ class Canvas extends Component {
     this.container.addEventListener('click', this.onCanvasClick, false);
   }
 
+  componentDidUpdate(oldProps) {
+    if (oldProps.data.bodies.length !== this.props.data.bodies.length) {
+      const el = this.props.data.bodies[this.props.data.bodies.length - 1]
+      const i = this.props.data.bodies.length - 1;
+
+      const bdyPosition = el.getAbsolutPosition(new Date());
+      const bdyRadius = 100;
+      const xyzPosition = [bdyPosition.X / global.scaleFactor, bdyPosition.Y / global.scaleFactor, bdyPosition.Z / global.scaleFactor];
+      const sphereGeometry = new THREE.SphereGeometry(bdyRadius, 20, 20)
+      const sphereMaterial = new THREE.MeshBasicMaterial({ color: 0xf0f000 })
+      const bdyMesh = new THREE.Mesh(sphereGeometry, sphereMaterial)
+      bdyMesh.position.set(xyzPosition[0], xyzPosition[1], xyzPosition[2])
+      el.attatchMesh(bdyMesh);
+      bdyMesh.name = `${i}`;
+      this.parentTransform.add(bdyMesh);
+
+      const radFactor = Math.PI / 180;
+
+      const orbit = new Orbit(
+        bdyPosition.A / global.scaleFactor,
+        bdyPosition.EC,
+        [bdyPosition.IN * radFactor, bdyPosition.W * radFactor, bdyPosition.OM * radFactor],
+        el.orbitColor
+      );
+      const orbitLine = orbit.createLine();
+      orbitLine.name = `${i}`;
+      this.parentTransform.add(orbitLine);
+
+      const text = this.createTextLabel(this);
+      text.setHTML(el.name);
+      text.setParent(bdyMesh);
+      this.textlabels.push(text);
+      this.container.appendChild(text.element);
+    }
+  }
+
   onDocumentMouseMove(event) {
     event.preventDefault();
     this.mouse.x = ((event.clientX / (window.innerWidth - 350)) * 2) - 1;
