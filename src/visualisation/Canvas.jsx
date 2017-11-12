@@ -13,6 +13,7 @@ class Canvas extends Component {
     this.createTextLabel = this.createTextLabel.bind(this);
     this.threeRender = this.threeRender.bind(this);
     this.onDocumentMouseMove = this.onDocumentMouseMove.bind(this);
+    this.onCanvasClick = this.onCanvasClick.bind(this);
 
     this.textlabels = [];
 
@@ -95,6 +96,7 @@ class Canvas extends Component {
       const bdy = new Body(bdyRadius, xyzPosition, el.textureFilename);
       const bdyMesh = bdy.createMesh();
       el.attatchMesh(bdyMesh);
+      bdyMesh.name = `${i}`;
       this.parentTransform.add(bdyMesh);
 
       const radFactor = Math.PI / 180;
@@ -106,6 +108,7 @@ class Canvas extends Component {
         el.orbitColor
       );
       const orbitLine = orbit.createLine();
+      orbitLine.name = `${i}`;
       this.parentTransform.add(orbitLine);
 
       const text = this.createTextLabel(this);
@@ -121,12 +124,19 @@ class Canvas extends Component {
     this.animate();
 
     document.addEventListener('mousemove', this.onDocumentMouseMove, false);
+    this.container.addEventListener('click', this.onCanvasClick, false);
   }
 
   onDocumentMouseMove(event) {
     event.preventDefault();
     this.mouse.x = ((event.clientX / (window.innerWidth - 350)) * 2) - 1;
     this.mouse.y = -((event.clientY / (window.innerHeight - 2)) * 2) + 1;
+  }
+
+  onCanvasClick() {
+    if (this.currentIntersected) {
+      this.props.updateData({ selectedBody: parseInt((this.currentIntersected || {}).name, 10) })
+    }
   }
 
   animate(currentTime) {
