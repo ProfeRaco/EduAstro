@@ -223,7 +223,7 @@ class Canvas extends Component {
         vector.x = ((vector.x + 1) / 2) * (window.innerWidth - 350);
         vector.y = -((vector.y - 1) / 2) * (window.innerHeight - 4);
         return vector;
-      }
+      },
     };
   }
 

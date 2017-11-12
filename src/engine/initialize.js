@@ -25,7 +25,7 @@ const Sun = new Body(
     sideralOrbitPeriod: 0,
     escapeVelocity: 617.7,
   },
-  '',
+  'The Sun is the star at the center of the Solar System. It is a nearly perfect sphere of hot plasma, with internal convective motion that generates a magnetic field via a dynamo process. It is by far the most important source of energy for life on Earth. Its diameter is about 1.39 million kilometers, i.e. 109 times that of Earth, and its mass is about 330,000 times that of Earth, accounting for about 99.86% of the total mass of the Solar System. About three quarters of the Sun\'s mass consists of hydrogen (~73%); the rest is mostly helium (~25%), with much smaller quantities of heavier elements, including oxygen, carbon, neon, and iron.',
   'img/textures/sun.jpg',
   0x000000,
 );
@@ -76,7 +76,7 @@ const Earth = new Body(
     sideralOrbitPeriod: 1.0000174,
     escapeVelocity: 11.186,
   },
-  '',
+  'Earth is the third planet from the Sun and the only object in the Universe known to harbor life. According to radiometric dating and other sources of evidence, Earth formed over 4 billion years ago. Earth\'s gravity interacts with other objects in space, especially the Sun and the Moon, Earth\'s only natural satellite. Earth revolves around the Sun in 365.26 days, a period known as an Earth year. During this time, Earth rotates about its axis about 366.26 times',
   'img/textures/earth.jpg',
   0x6bdb54,
 );
