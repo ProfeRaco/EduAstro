@@ -96,6 +96,7 @@ class Body {
     this.msh.position.x = pos.X / scaleFactor;
     this.msh.position.y = pos.Y / scaleFactor;
     this.msh.position.z = pos.Z / scaleFactor;
+    this.msh.updateMatrix();
   }
 }
 

@@ -21,8 +21,7 @@ class Canvas extends Component {
     this.scene = new THREE.Scene();
     this.camera = new THREE.PerspectiveCamera(45, (window.innerWidth - 350) / (window.innerHeight - 4), 0.1, 1e10);
     this.mouse = new THREE.Vector2();
-    this.radius = 100;
-    this.theta = 0;
+
     this.raycaster = null;
     this.parentTransform = null;
     this.currentIntersected = null;
@@ -77,17 +76,6 @@ class Canvas extends Component {
     this.raycaster.linePrecision = 3;
 
     this.parentTransform = new THREE.Object3D();
-    this.parentTransform.position.x = (Math.random() * 40) - 20;
-    this.parentTransform.position.y = (Math.random() * 40) - 20;
-    this.parentTransform.position.z = (Math.random() * 40) - 20;
-
-    this.parentTransform.rotation.x = Math.random() * 2 * Math.PI;
-    this.parentTransform.rotation.y = Math.random() * 2 * Math.PI;
-    this.parentTransform.rotation.z = Math.random() * 2 * Math.PI;
-
-    this.parentTransform.scale.x = Math.random() + 0.5;
-    this.parentTransform.scale.y = Math.random() + 0.5;
-    this.parentTransform.scale.z = Math.random() + 0.5;
   }
 
   componentDidMount() {
@@ -132,18 +120,11 @@ class Canvas extends Component {
 
   onDocumentMouseMove(event) {
     event.preventDefault();
-    this.mouse.x = ((event.clientX / window.innerWidth) * 2) - 1;
-    this.mouse.y = -((event.clientY / window.innerHeight) * 2) + 1;
+    this.mouse.x = ((event.clientX / (window.innerWidth - 350)) * 2) - 1;
+    this.mouse.y = -((event.clientY / (window.innerHeight - 2)) * 2) + 1;
   }
 
   animate(currentTime) {
-    this.theta += 0.1;
-
-    this.camera.position.y = this.radius * Math.sin(THREE.Math.degToRad(this.theta));
-    this.camera.position.x = this.radius * Math.sin(THREE.Math.degToRad(this.theta));
-    this.camera.position.z = this.radius * Math.cos(THREE.Math.degToRad(this.theta));
-
-    this.camera.lookAt(this.scene.position);
     this.camera.updateMatrixWorld();
 
     // find intersections
@@ -169,33 +150,32 @@ class Canvas extends Component {
 
     requestAnimationFrame(this.animate);
     this.threeRender(this.scene, this.camera, currentTime);
-    const bPos = bodies[this.props.data.centralBody].getAbsolutPosition(new Date());
-    const xyzBP = [
-      bPos.X / global.scaleFactor,
-      bPos.Y / global.scaleFactor,
-      bPos.Z / global.scaleFactor
-    ];
-    const vector = new THREE.Vector3(xyzBP[0], xyzBP[1], xyzBP[2]);
-    this.controls.target = vector
-    this.controls.update();
   }
 
   threeRender(scene, camera, currentTime) {
+    let { epoch } = this.props.data;
     const deltaTime = (currentTime - this.pastTime) * this.props.data.speed;
     this.pastTime = currentTime;
 
     if (this.props.data.playing) {
-      const newEpoch = new Date(this.props.data.epoch.valueOf() + deltaTime);
-      this.props.updateData({ epoch: newEpoch });
+      epoch = new Date(epoch.valueOf() + deltaTime);
+      this.props.updateData({ epoch });
 
       bodies.forEach((el) => {
-        el.updateMeshPosition(newEpoch, global.scaleFactor);
+        el.updateMeshPosition(epoch, global.scaleFactor);
       })
     }
+
+    const bPos = bodies[this.props.data.centralBody].msh.position;
+    const vector = new THREE.Vector3(bPos.x, bPos.y, bPos.z);
+    this.controls.target = vector;
+    this.controls.update();
 
     for (let i = 0; i < this.textlabels.length; i++) {
       this.textlabels[i].updatePosition();
     }
+
+    this.parentTransform.updateMatrixWorld();
 
     this.renderer.render(scene, camera);
   }
