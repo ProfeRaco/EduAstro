@@ -11,7 +11,7 @@ function Menu(props) {
   return (
     <div
       style={Object.assign({
-        padding: '70px 5px 5px 5px',
+        padding: '65px 18px 5px 5px',
         display: 'block',
       }, props.style)}
     >

@@ -14,7 +14,7 @@ import FastRewind from 'material-ui/svg-icons/av/fast-rewind';
 function TopBar(props) {
   return (
     <div style={{ position: 'absolute', width: '100%' }}>
-      <Toolbar>
+      <Toolbar style={{height: 45}}>
         <ToolbarGroup>
           <IconButton touch onClick={() => (props.updateData({ speed: (props.data.speed - 5000) <= 0 ? 1 : (props.data.speed - 5000) }))}>
             <FastRewind />
@@ -37,13 +37,14 @@ function TopBar(props) {
           <IconButton touch onClick={() => (props.updateData({ speed: props.data.speed === 1 ? 5000 : props.data.speed + 5000 }))}>
             <FastForward />
           </IconButton>
-          <ToolbarTitle text={'x' + props.data.speed} />
+          <ToolbarTitle style={{fontSize: 15}} text={'x' + props.data.speed} />
           <DatePicker
             hintText="Current date"
             mode="landscape"
             openToYearSelection
             value={props.data.epoch}
             style={{ width: 90 }}
+            dialogContainerStyle={{ width: 90 }}
             onChange={(e, date) => (props.updateData({ epoch: date }))}
           />
           <TimePicker
