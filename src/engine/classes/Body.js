@@ -9,7 +9,7 @@ function newtonRaphson(fun, der, initial) {
   let x2 = initial + 1;
   let e = 1;
 
-  while (e > 1E-6) {
+  while (e > 1E-8) {
     x2 = x1 - (fun(x2) / der(x2));
     e = Math.abs(x2 - x1);
     x1 = x2;
@@ -36,7 +36,7 @@ class Body {
 
     this.computeRadiousOfInfluence();
 
-    this.updateMeshPosition = this.updateMeshPosition.bind(this)
+    this.updateMeshPosition = this.updateMeshPosition.bind(this);
   }
 
   getPosition(epoch, refSystem) {
@@ -47,18 +47,24 @@ class Body {
 
     const dat = _.find(this.ephemerides, d => Math.abs(d.JDTDB - julian) < 30);
 
-    const DeltaT = (dat.JDTDB - julian) * 86400;
+    const DeltaT = -(dat.JDTDB - julian) * 86400;
 
     const n = Math.sqrt(this.centralBody.mu / (dat.A ** 3)); // Mean angular momentum
 
-    const fun = EA => ((EA - (dat.EC * Math.cos(EA))) / n) - DeltaT;
-    const der = EA => (1 / n) - ((dat.EC / n) * Math.cos(EA));
-    const EA = newtonRaphson(fun, der, 0);
-    const TA = Math.atan((Math.tan(EA / 2)) / (Math.sqrt((1 - dat.EC) / (1 + dat.EC))));
-    // console.log('n', n)
-    // console.log('DeltaT', DeltaT)
-    // console.log('EA', EA)
-    // console.log('TA', TA)
+    const fun = EA => (((EA) - (dat.EC * Math.cos(EA))) / n) - DeltaT;
+    const der = EA => (1 / n) - ((dat.EC / n) * Math.cos((EA / 180) * Math.PI));
+    const EA1 = newtonRaphson(fun, der, 0);
+    const sqrt = Math.sqrt((1 - dat.EC) / (1 + dat.EC));
+    const EA2 = 2 * Math.atan(sqrt * Math.tan((dat.TA / 360) * Math.PI));
+    const EA = EA1 + EA2; // Radiants
+    let TA = (2 * (Math.atan(Math.tan(EA / 2)) / sqrt) * 180) / Math.PI; // Graus
+
+    if (TA < 0) {
+      TA = 360 + TA;
+    }
+
+    console.log(n, 'on ', dat.JDTDB, ' TA is ', dat.TA, ' EA is ', EA, ' TA is ', TA, (2 * (Math.atan(Math.tan(EA2 / 2)) / sqrt) * 180) / Math.PI)
+    console.log('on ', julian, ' TA is ', TA, ' EA is ', EA, ' TA is ', TA)
 
     const coord = new Coordinates('keplerian', this.centralBody, dat.A, dat.EC, dat.IN, dat.OM, dat.W, TA);
 

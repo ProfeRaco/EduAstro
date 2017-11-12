@@ -27,12 +27,6 @@ class Coordinates {
       default:
         throw new Error('Cannot create "Coordinates" element, unknown coordinates type');
     }
-
-    if (body) {
-      this.EA = 2 * Math.atan(Math.sqrt(Math.sqrt((1 - this.EC) /
-        (1 + this.EC))) * Math.tan(this.TA)); // Eccentric Anomaly
-      this.n = Math.sqrt(body.mu / (this.A ** 3)); // Mean angular momentum
-    }
   }
 
   convertKeplerianToCartesian(A, EC, IN, OM, W, TA) {
@@ -45,16 +39,16 @@ class Coordinates {
     let p = A * (1 - (EC * EC));
     p = Math.max(p, 1.e-30); // safety measure for the square root
     const f = Math.sqrt(mu / p);
-    const cv = Math.cos(TA / (180 * Math.PI));
+    const cv = Math.cos(TA / 180 * Math.PI);
     const ecv = 1 + (EC * cv);
     const r = p / ecv;
     const u = W + TA;
-    const cu = Math.cos(u / (180 * Math.PI));
-    const su = Math.sin(u / (180 * Math.PI));
-    const co = Math.cos(OM / (180 * Math.PI));
-    const so = Math.sin(OM / (180 * Math.PI));
-    const ci = Math.cos(IN / (180 * Math.PI));
-    const si = Math.sin(IN / (180 * Math.PI));
+    const cu = Math.cos(u / 180 * Math.PI);
+    const su = Math.sin(u / 180 * Math.PI);
+    const co = Math.cos(OM / 180 * Math.PI);
+    const so = Math.sin(OM / 180 * Math.PI);
+    const ci = Math.cos(IN / 180 * Math.PI);
+    const si = Math.sin(IN / 180 * Math.PI);
     const cocu = co * cu;
     const sosu = so * su;
     const socu = so * cu;
@@ -62,7 +56,7 @@ class Coordinates {
     const fx = cocu - (sosu * ci);
     const fy = socu + (cosu * ci);
     const fz = su * si;
-    const vr = f * EC * Math.sin(TA / (180 * Math.PI));
+    const vr = f * EC * Math.sin(TA / 180 * Math.PI);
     const vu = f * ecv;
     const X = r * fx;
     const Y = r * fy;
