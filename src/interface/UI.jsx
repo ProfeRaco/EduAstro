@@ -23,6 +23,8 @@ function UI(props) {
           style={{
             flex: '1',
           }}
+          data={props.data}
+          updateData={props.updateData}
         />
       </div>
     </MuiThemeProvider>
