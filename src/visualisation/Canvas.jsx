@@ -62,7 +62,7 @@ class Canvas extends Component {
     // const earthOrbitLine = earthOrbit.createLine()
     // this.scene.add(earthOrbitLine)
 
-    this.camera.position.z = 5;
+    this.camera.position.z = 50000;
 
     this.controls = new TrackballControls(this.camera, document.body);
     this.controls.rotateSpeed = 3;
@@ -73,6 +73,7 @@ class Canvas extends Component {
     this.controls.staticMoving = false;
     this.controls.dynamicDampingFactor = 0.3;
 
+    this.pastTime = performance.now();
     this.animate();
   }
 
@@ -80,7 +81,14 @@ class Canvas extends Component {
     document.getElementById('render-here').appendChild(this.renderer.domElement);
   }
 
-  animate() {
+  animate(currentTime) {
+    const deltaTime = (currentTime - this.pastTime) * this.props.data.speed;
+    this.pastTime = currentTime;
+
+    if (this.props.data.playing) {
+      this.props.updateData({ epoch: new Date(this.props.data.epoch.valueOf() + deltaTime)});
+    }
+
     requestAnimationFrame(this.animate);
     this.threeRender(this.scene, this.camera);
     this.controls.update();

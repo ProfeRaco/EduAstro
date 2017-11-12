@@ -28,7 +28,7 @@ class App extends Component {
     return (
       <div className="App">
         <UI data={this.state.data} updateData={this.updateData}>
-          <Canvas data={this.state.data} />
+          <Canvas data={this.state.data} updateData={this.updateData} />
         </UI>
       </div>
     );
