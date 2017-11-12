@@ -63,9 +63,6 @@ class Body {
       TA = 360 + TA;
     }
 
-    console.log(n, 'on ', dat.JDTDB, ' TA is ', dat.TA, ' EA is ', EA, ' TA is ', TA, (2 * (Math.atan(Math.tan(EA2 / 2)) / sqrt) * 180) / Math.PI)
-    console.log('on ', julian, ' TA is ', TA, ' EA is ', EA, ' TA is ', TA)
-
     const coord = new Coordinates('keplerian', this.centralBody, dat.A, dat.EC, dat.IN, dat.OM, dat.W, TA);
 
     if (refSystem) {
