@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 
-import Canvas from './visualisation/Canvas';
+import Canvas from './visualisation/Canvas.jsx';
 import UI from './interface/UI'
 
 class App extends Component {
