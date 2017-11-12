@@ -7,7 +7,23 @@ const Body = require('./Body').default;
 
 
 describe('Coordinates', () => {
-  const sun = new Body(null, null, 1.3271244004193938E11, 'SUN');
+  const sun = new Body(
+    null,
+    null,
+    {
+      mu: 1.3271244004193938E11,
+      radious: 6.955E5,
+      density: 1.408,
+      albedo: 0,
+      surfaceGravity: 274,
+      sideralRotationPeriod: 0,
+      sideralOrbitPeriod: 0,
+      escapeVelocity: 617.7,
+    },
+    '',
+    'img/textures/sun.jpg',
+    0x000000,
+  );
 
   describe('#given keplerian coordinates', () => {
     it('should transform given coordinates #1', (done) => {
