@@ -16,7 +16,8 @@ function newtonRaphson(fun, der, initial) {
 }
 
 class Spacecraft {
-  constructor(epoch, coordinates) {
+  constructor(name, epoch, coordinates) {
+    this.name = name;
     this.epoch = epoch;
     this.coordinates = coordinates;
     this.centralbody = coordinates.body;
