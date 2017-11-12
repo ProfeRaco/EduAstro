@@ -40,6 +40,7 @@ class Body {
     this.computeRadiousOfInfluence();
 
     this.updateMeshPosition = this.updateMeshPosition.bind(this);
+    this.getPosition = this.getPosition.bind(this);
   }
 
   getPosition(epoch, refSystem) {
