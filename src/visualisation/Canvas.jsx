@@ -14,11 +14,17 @@ class Canvas extends Component {
     this.animate = this.animate.bind(this);
     this.createTextLabel = this.createTextLabel.bind(this);
     this.threeRender = this.threeRender.bind(this);
+    this.onDocumentMouseMove = this.onDocumentMouseMove.bind(this);
 
     this.textlabels = [];
 
     this.scene = new THREE.Scene();
     this.camera = new THREE.PerspectiveCamera(45, (window.innerWidth - 350) / (window.innerHeight - 4), 0.1, 1e10);
+    this.mouse = new THREE.Vector2();
+
+    this.raycaster = null;
+    this.parentTransform = null;
+    this.currentIntersected = null;
     // this.camera.zoom = 0.00002
     // this.camera.updateProjectionMatrix()
 
@@ -66,13 +72,22 @@ class Canvas extends Component {
     this.controls.staticMoving = false;
     this.controls.dynamicDampingFactor = 0.3;
 
-    this.pastTime = performance.now();
-    this.animate();
+    this.raycaster = new THREE.Raycaster();
+    this.raycaster.linePrecision = 3;
+
+    this.parentTransform = new THREE.Object3D();
   }
 
   componentDidMount() {
     this.container = document.getElementById('render-here');
     this.container.appendChild(this.renderer.domElement);
+
+
+    const geometry = new THREE.SphereGeometry(20);
+    const material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+    this.sphereInter = new THREE.Mesh(geometry, material);
+    this.sphereInter.visible = false;
+    this.scene.add(this.sphereInter);
 
     bodies.forEach((el, i) => {
       global.scaleFactor = 60268;
@@ -82,7 +97,7 @@ class Canvas extends Component {
       const bdy = new Body(bdyRadius, xyzPosition, el.textureFilename);
       const bdyMesh = bdy.createMesh();
       el.attatchMesh(bdyMesh);
-      this.scene.add(bdyMesh);
+      this.parentTransform.add(bdyMesh);
 
       const radFactor = Math.PI / 180;
 
@@ -93,7 +108,7 @@ class Canvas extends Component {
         el.orbitColor
       );
       const orbitLine = orbit.createLine();
-      this.scene.add(orbitLine);
+      this.parentTransform.add(orbitLine);
 
       const text = this.createTextLabel(this);
       text.setHTML(`Planet ${i}`);
@@ -101,38 +116,73 @@ class Canvas extends Component {
       this.textlabels.push(text);
       this.container.appendChild(text.element);
     });
+
+    this.scene.add(this.parentTransform);
+
+    this.pastTime = performance.now();
+    this.animate();
+
+    document.addEventListener('mousemove', this.onDocumentMouseMove, false);
+  }
+
+  onDocumentMouseMove(event) {
+    event.preventDefault();
+    this.mouse.x = ((event.clientX / (window.innerWidth - 350)) * 2) - 1;
+    this.mouse.y = -((event.clientY / (window.innerHeight - 2)) * 2) + 1;
   }
 
   animate(currentTime) {
+    this.camera.updateMatrixWorld();
+
+    // find intersections
+
+    this.raycaster.setFromCamera(this.mouse, this.camera);
+    const intersects = this.raycaster.intersectObjects(this.parentTransform.children, true);
+    if (intersects.length > 0) {
+      if (this.currentIntersected !== null) {
+        this.currentIntersected.material.linewidth = 1;
+      }
+
+      this.currentIntersected = intersects[0].object;
+      this.currentIntersected.material.linewidth = 5;
+      this.sphereInter.visible = true;
+      this.sphereInter.position.copy(intersects[0].point);
+    } else {
+      if (this.currentIntersected !== null) {
+        this.currentIntersected.material.linewidth = 1;
+      }
+      this.currentIntersected = null;
+      this.sphereInter.visible = false;
+    }
+
     requestAnimationFrame(this.animate);
     this.threeRender(this.scene, this.camera, currentTime);
-    const bPos = bodies[this.props.data.centralBody].getAbsolutPosition(new Date());
-    const xyzBP = [
-      bPos.X / global.scaleFactor,
-      bPos.Y / global.scaleFactor,
-      bPos.Z / global.scaleFactor
-    ];
-    const vector = new THREE.Vector3(xyzBP[0], xyzBP[1], xyzBP[2]);
-    this.controls.target = vector
-    this.controls.update();
   }
 
   threeRender(scene, camera, currentTime) {
+    let { epoch } = this.props.data;
     const deltaTime = (currentTime - this.pastTime) * this.props.data.speed;
     this.pastTime = currentTime;
 
     if (this.props.data.playing) {
-      const newEpoch = new Date(this.props.data.epoch.valueOf() + deltaTime);
-      this.props.updateData({ epoch: newEpoch });
+      epoch = new Date(epoch.valueOf() + deltaTime);
+      this.props.updateData({ epoch });
 
       bodies.forEach((el) => {
-        el.updateMeshPosition(newEpoch, global.scaleFactor);
+        el.updateMeshPosition(epoch, global.scaleFactor);
       })
     }
+
+    const bPos = bodies[this.props.data.centralBody].msh.position;
+    const vector = new THREE.Vector3(bPos.x, bPos.y, bPos.z);
+    this.controls.target = vector;
+    this.controls.update();
 
     for (let i = 0; i < this.textlabels.length; i++) {
       this.textlabels[i].updatePosition();
     }
+
+    this.parentTransform.updateMatrixWorld();
 
     this.renderer.render(scene, camera);
   }
