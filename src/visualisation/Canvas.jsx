@@ -15,12 +15,12 @@ class Canvas extends Component {
     this.threeRender = this.threeRender.bind(this);
 
     this.scene = new THREE.Scene();
-    this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1e10);
+    this.camera = new THREE.PerspectiveCamera(45, (window.innerWidth - 350) / (window.innerHeight - 4), 0.1, 1e10);
     // this.camera.zoom = 0.00002
     // this.camera.updateProjectionMatrix()
 
     this.renderer = new THREE.WebGLRenderer();
-    this.renderer.setSize(window.innerWidth, window.innerHeight);
+    this.renderer.setSize((window.innerWidth - 350), (window.innerHeight - 4));
     // this.renderer.shadowMap.enabled = true
     // this.renderer.shadowMap.type = THREE.PCFSoftShadowMap
 
