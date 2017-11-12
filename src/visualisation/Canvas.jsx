@@ -72,7 +72,7 @@ class Canvas extends Component {
     this.controls.dynamicDampingFactor = 0.3;
 
     this.raycaster = new THREE.Raycaster();
-    this.raycaster.linePrecision = 3;
+    this.raycaster.linePrecision = 90;
 
     this.parentTransform = new THREE.Object3D();
   }
