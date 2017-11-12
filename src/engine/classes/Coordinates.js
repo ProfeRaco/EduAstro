@@ -45,16 +45,16 @@ class Coordinates {
     let p = A * (1 - (EC * EC));
     p = Math.max(p, 1.e-30); // safety measure for the square root
     const f = Math.sqrt(mu / p);
-    const cv = Math.cos(TA);
+    const cv = Math.cos(TA / (180 * Math.PI));
     const ecv = 1 + (EC * cv);
     const r = p / ecv;
     const u = W + TA;
-    const cu = Math.cos(u);
-    const su = Math.sin(u);
-    const co = Math.cos(OM);
-    const so = Math.sin(OM);
-    const ci = Math.cos(IN);
-    const si = Math.sin(IN);
+    const cu = Math.cos(u / (180 * Math.PI));
+    const su = Math.sin(u / (180 * Math.PI));
+    const co = Math.cos(OM / (180 * Math.PI));
+    const so = Math.sin(OM / (180 * Math.PI));
+    const ci = Math.cos(IN / (180 * Math.PI));
+    const si = Math.sin(IN / (180 * Math.PI));
     const cocu = co * cu;
     const sosu = so * su;
     const socu = so * cu;
@@ -62,7 +62,7 @@ class Coordinates {
     const fx = cocu - (sosu * ci);
     const fy = socu + (cosu * ci);
     const fz = su * si;
-    const vr = f * EC * Math.sin(TA);
+    const vr = f * EC * Math.sin(TA / (180 * Math.PI));
     const vu = f * ecv;
     const X = r * fx;
     const Y = r * fy;
@@ -129,7 +129,7 @@ class Coordinates {
       TA += twopi;
     }
 
-    return [A, EC, IN, OM, W, TA];
+    return [A, EC, IN * (180 / Math.PI), OM * (180 / Math.PI), W * (180 / Math.PI), TA * (180 / Math.PI)];
   }
 
   processKeplerian(A, EC, IN, OM, W, TA) {
