@@ -10,7 +10,10 @@ import TopBar from './topbar/TopBar';
 function UI(props) {
   return (
     <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
-      <TopBar />
+      <TopBar
+        data={props.data}
+        updateData={props.updateData}
+      />
       <div style={{ display: 'flex', width: '100%', height: '100%' }}>
         <div
           style={{

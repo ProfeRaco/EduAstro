@@ -1,15 +1,61 @@
 
 import React from 'react';
 
-import AppBar from 'material-ui/AppBar';
+import DatePicker from 'material-ui/DatePicker';
+import TimePicker from 'material-ui/TimePicker';
+import IconButton from 'material-ui/IconButton';
+import { Toolbar, ToolbarGroup, ToolbarTitle } from 'material-ui/Toolbar';
 
-function TopBar() {
+import Play from 'material-ui/svg-icons/av/play-arrow';
+import Stop from 'material-ui/svg-icons/av/stop';
+import FastForward from 'material-ui/svg-icons/av/fast-forward';
+import FastRewind from 'material-ui/svg-icons/av/fast-rewind';
+
+function TopBar(props) {
   return (
     <div style={{ position: 'absolute', width: '100%' }}>
-      <AppBar
-        title="Title"
-        iconClassNameRight="muidocs-icon-navigation-expand-more"
-      />
+      <Toolbar>
+        <ToolbarGroup>
+          <IconButton touch onClick={() => (props.updateData({ speed: (props.data.speed - 5) <= 0 ? 1 : (props.data.speed - 5) }))}>
+            <FastRewind />
+          </IconButton>
+          {(() => {
+            if (!props.data.playing) {
+              return (
+                <IconButton touch onClick={() => (props.updateData({ playing: true }))}>
+                  <Play />
+                </IconButton>
+              );
+            }
+
+            return (
+              <IconButton touch onClick={() => (props.updateData({ playing: false }))}>
+                <Stop />
+              </IconButton>
+            );
+          })()}
+          <IconButton touch onClick={() => (props.updateData({ speed: props.data.speed === 1 ? 5 : props.data.speed + 5 }))}>
+            <FastForward />
+          </IconButton>
+          <ToolbarTitle text={'x' + props.data.speed} />
+          <DatePicker
+            hintText="Current date"
+            mode="landscape"
+            openToYearSelection
+            value={props.data.epoch}
+            style={{ width: 90 }}
+            onChange={(e, date) => (props.updateData({ epoch: date }))}
+          />
+          <TimePicker
+            hintText="Current time"
+            autoOk
+            value={props.data.epoch}
+            style={{ width: 90 }}
+            onChange={(e, date) => (props.updateData({ epoch: date }))}
+          />
+        </ToolbarGroup>
+      </Toolbar>
+
     </div>
   );
 }

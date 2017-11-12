@@ -10,7 +10,7 @@ function Details(props) {
       <SelectField
         floatingLabelText="Center camera on:"
         value={props.data.centralBody}
-        onChange={(e, i, value) => props.updateData(Object.assign({}, props.data, { centralBody: value }))}
+        onChange={(e, i, value) => props.updateData({ centralBody: value })}
         fullWidth
       >
         <MenuItem value={0} primaryText="Sun" />

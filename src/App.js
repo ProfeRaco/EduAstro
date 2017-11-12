@@ -11,6 +11,9 @@ class App extends Component {
     this.state = {
       data: {
         centralBody: 0,
+        playing: false,
+        speed: 10,
+        epoch: new Date(),
       },
     };
 
@@ -18,7 +21,7 @@ class App extends Component {
   }
 
   updateData(data) {
-    this.setState({ data });
+    this.setState(Object.assign(this.state.data, data));
   }
 
   render() {
