@@ -1,12 +1,12 @@
 
-import Coordinates from './Coordinates'
+import Coordinates from './Coordinates';
 
 function newtonRaphson(fun, der, initial) {
   let x1 = initial;
   let x2 = initial + 1;
   let e = 1;
 
-  while (e > 1E-8) {
+  while (e > 1E-6) {
     x2 = x1 - (fun(x2) / der(x2));
     e = Math.abs(x2 - x1);
     x1 = x2;
@@ -20,8 +20,9 @@ class Spacecraft {
     this.name = name;
     this.epoch = epoch;
     this.coordinates = coordinates;
-    this.centralbody = coordinates.body;
+    this.centralBody = coordinates.body;
     this.isSpacecraft = true;
+    this.orbitColor = 0xf0f000;
 
     this.maneuvers = [];
     this.maneuvers.push({
@@ -31,6 +32,9 @@ class Spacecraft {
         data: epoch,
       },
     });
+
+    this.updateMeshPosition = this.updateMeshPosition.bind(this);
+    this.getPosition = this.getPosition.bind(this);
   }
 
   addManouvre () {
@@ -52,19 +56,24 @@ class Spacecraft {
 
     const n = Math.sqrt(this.centralBody.mu / (dat.A ** 3)); // Mean angular momentum
 
-    const fun = EA => (((EA) - (dat.EC * Math.cos(EA))) / n) - DeltaT;
-    const der = EA => (1 / n) - ((dat.EC / n) * Math.cos((EA / 180) * Math.PI));
-    const EA1 = newtonRaphson(fun, der, 0);
-    const sqrt = Math.sqrt((1 - dat.EC) / (1 + dat.EC));
-    const EA2 = 2 * Math.atan(sqrt * Math.tan((dat.TA / 360) * Math.PI));
-    const EA = EA1 + EA2; // Radiants
-    let TA = (2 * (Math.atan(Math.tan(EA / 2)) / sqrt) * 180) / Math.PI; // Graus
+    let coord;
+    if (Math.abs(DeltaT) < 0.1) {
+      coord = dat;
+    } else {
+      const fun = EA => (((EA) - (dat.EC * Math.cos(EA))) / n) - DeltaT;
+      const der = EA => (1 / n) - ((dat.EC / n) * Math.cos((EA / 180) * Math.PI));
+      const EA1 = newtonRaphson(fun, der, 0);
+      const sqrt = Math.sqrt((1 - dat.EC) / (1 + dat.EC));
+      const EA2 = 2 * Math.atan(sqrt * Math.tan((dat.TA / 360) * Math.PI));
+      const EA = EA1 + EA2; // Radiants
+      let TA = (2 * (Math.atan(Math.tan(EA / 2)) / sqrt) * 180) / Math.PI; // Graus
 
-    if (TA < 0) {
-      TA = 360 + TA;
+      if (TA < 0) {
+        TA = 360 + TA;
+      }
+
+      coord = new Coordinates('keplerian', this.centralBody, dat.A, dat.EC, dat.IN, dat.OM, dat.W, TA);
     }
-
-    const coord = new Coordinates('keplerian', this.centralBody, dat.A, dat.EC, dat.IN, dat.OM, dat.W, TA);
 
     if (refSystem) {
       return coord.changeReferenceSystem(refSystem);

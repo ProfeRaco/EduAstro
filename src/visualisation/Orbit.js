@@ -1,11 +1,14 @@
 import * as THREE from 'three'
 
 class Orbit {
-  constructor(a, e, rotation, color) {
+  constructor(a, e, rotation, color, xc = 0, yc = 0, zc = 0) {
     this.a = a
     this.e = e
     this.rotation = rotation
     this.color = color
+    this.xc = xc;
+    this.yc = yc;
+    this.zc = zc;
   }
 
   createLine() {
@@ -18,7 +21,10 @@ class Orbit {
     let eulerRotation = new THREE.Euler(this.rotation[0], 0, this.rotation[1], 'XZY')
     ellipse.setRotationFromEuler(eulerRotation)
     eulerRotation = new THREE.Euler(0, 0, this.rotation[2], 'ZXY')
-    ellipse.setRotationFromEuler(eulerRotation)
+    ellipse.setRotationFromEuler(eulerRotation);
+    ellipse.translateX(this.xc);
+    ellipse.translateY(this.yc);
+    ellipse.translateZ(this.zc);
     return ellipse
   }
 }

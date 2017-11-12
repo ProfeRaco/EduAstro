@@ -16,6 +16,7 @@ class Canvas extends Component {
     this.onCanvasClick = this.onCanvasClick.bind(this);
 
     this.textlabels = [];
+    this.nBodies = this.props.data.bodies.length;
 
     this.scene = new THREE.Scene();
     this.camera = new THREE.PerspectiveCamera(45, (window.innerWidth - 350) / (window.innerHeight - 4), 0.1, 1e10);
@@ -90,7 +91,7 @@ class Canvas extends Component {
     this.props.data.bodies.forEach((el, i) => {
       global.scaleFactor = 60268;
       global.factor2 = 50;
-      const bdyPosition = el.getAbsolutPosition(new Date());
+      const bdyPosition = el.getAbsolutPosition(this.props.data.epoch);
       const bdyRadius = el.radiousBody / global.scaleFactor * global.factor2;
       const xyzPosition = [bdyPosition.X / global.scaleFactor, bdyPosition.Y / global.scaleFactor, bdyPosition.Z / global.scaleFactor];
       const bdy = new Body(bdyRadius, xyzPosition, el.textureFilename);
@@ -128,12 +129,13 @@ class Canvas extends Component {
   }
 
   componentDidUpdate(oldProps) {
-    if (oldProps.data.bodies.length !== this.props.data.bodies.length) {
+    if (this.nBodies !== this.props.data.bodies.length) {
+      this.nBodies = this.props.data.bodies.length;
       const el = this.props.data.bodies[this.props.data.bodies.length - 1]
       const i = this.props.data.bodies.length - 1;
 
-      const bdyPosition = el.getAbsolutPosition(new Date());
-      const bdyRadius = 100;
+      const bdyPosition = el.getAbsolutPosition(this.props.data.epoch);
+      const bdyRadius = 1;
       const xyzPosition = [bdyPosition.X / global.scaleFactor, bdyPosition.Y / global.scaleFactor, bdyPosition.Z / global.scaleFactor];
       const sphereGeometry = new THREE.SphereGeometry(bdyRadius, 20, 20)
       const sphereMaterial = new THREE.MeshBasicMaterial({ color: 0xf0f000 })
@@ -145,11 +147,16 @@ class Canvas extends Component {
 
       const radFactor = Math.PI / 180;
 
+      const centerBodyPos = el.centralBody.getAbsolutPosition(this.props.data.epoch);
+
       const orbit = new Orbit(
         bdyPosition.A / global.scaleFactor,
         bdyPosition.EC,
         [bdyPosition.IN * radFactor, bdyPosition.W * radFactor, bdyPosition.OM * radFactor],
-        el.orbitColor
+        el.orbitColor,
+        centerBodyPos.X / global.scaleFactor,
+        centerBodyPos.Y / global.scaleFactor,
+        centerBodyPos.Z / global.scaleFactor,
       );
       const orbitLine = orbit.createLine();
       orbitLine.name = `${i}`;
