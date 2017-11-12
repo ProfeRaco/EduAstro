@@ -16,7 +16,7 @@ function TopBar(props) {
     <div style={{ position: 'absolute', width: '100%' }}>
       <Toolbar>
         <ToolbarGroup>
-          <IconButton touch onClick={() => (props.updateData({ speed: (props.data.speed - 50) <= 0 ? 1 : (props.data.speed - 50) }))}>
+          <IconButton touch onClick={() => (props.updateData({ speed: (props.data.speed - 5000) <= 0 ? 1 : (props.data.speed - 5000) }))}>
             <FastRewind />
           </IconButton>
           {(() => {
@@ -34,7 +34,7 @@ function TopBar(props) {
               </IconButton>
             );
           })()}
-          <IconButton touch onClick={() => (props.updateData({ speed: props.data.speed === 1 ? 50 : props.data.speed + 50 }))}>
+          <IconButton touch onClick={() => (props.updateData({ speed: props.data.speed === 1 ? 5000 : props.data.speed + 5000 }))}>
             <FastForward />
           </IconButton>
           <ToolbarTitle text={'x' + props.data.speed} />
