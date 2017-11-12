@@ -44,7 +44,7 @@ const Mercury = new Body(
   },
   '',
   'img/textures/mercury.jpg',
-  0xff0000,
+  0xd58340,
 );
 const Venus = new Body(
   Sun,
@@ -61,7 +61,7 @@ const Venus = new Body(
   },
   '',
   'img/textures/venus.jpg',
-  0xffff00,
+  0xf0e442,
 );
 const Earth = new Body(
   Sun,
@@ -78,7 +78,7 @@ const Earth = new Body(
   },
   '',
   'img/textures/earth.jpg',
-  0x00ffff,
+  0x6bdb54,
 );
 const Mars = new Body(
   Sun,
@@ -95,7 +95,7 @@ const Mars = new Body(
   },
   '',
   'img/textures/mars.jpg',
-  0xff00ff,
+  0x50e08a,
 );
 const Jupiter = new Body(
   Sun,
@@ -112,7 +112,7 @@ const Jupiter = new Body(
   },
   '',
   'img/textures/jupiter.jpg',
-  0xf0f000,
+  0x5fddd1,
 );
 const Saturn = new Body(
   Sun,
@@ -129,7 +129,7 @@ const Saturn = new Body(
   },
   '',
   'img/textures/saturn.jpg',
-  0xff0000,
+  0x5855fa,
 );
 const Uranus = new Body(
   Sun,
@@ -146,7 +146,7 @@ const Uranus = new Body(
   },
   '',
   'img/textures/uranus.jpg',
-  0xff00ff,
+  0xcd63db,
 );
 const Neptune = new Body(
   Sun,
@@ -163,7 +163,7 @@ const Neptune = new Body(
   },
   '',
   'img/textures/neptune.jpg',
-  0xffff00,
+  0xe0599e,
 );
 
 const bodies = [Sun, Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, Neptune];

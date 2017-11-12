@@ -12,7 +12,7 @@ class App extends Component {
       data: {
         centralBody: 0,
         playing: false,
-        speed: 10,
+        speed: 500000,
         epoch: new Date(),
       },
     };

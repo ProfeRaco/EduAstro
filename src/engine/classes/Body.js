@@ -35,6 +35,8 @@ class Body {
     this.orbitColor = orbitColor;
 
     this.computeRadiousOfInfluence();
+
+    this.updateMeshPosition = this.updateMeshPosition.bind(this)
   }
 
   getPosition(epoch, refSystem) {
@@ -83,6 +85,17 @@ class Body {
     } else {
       this.radiousInfluence = Infinity;
     }
+  }
+
+  attatchMesh(msh) {
+    this.msh = msh;
+  }
+
+  updateMeshPosition(epoch, scaleFactor) {
+    const pos = this.getAbsolutPosition(epoch);
+    this.msh.position.x = pos.X / scaleFactor;
+    this.msh.position.y = pos.Y / scaleFactor;
+    this.msh.position.z = pos.Z / scaleFactor;
   }
 }
 

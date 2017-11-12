@@ -75,19 +75,16 @@ class Canvas extends Component {
     this.container.appendChild(this.renderer.domElement);
 
     bodies.forEach((el, i) => {
-      const scaleFactor = 60268;
+      global.scaleFactor = 60268;
       const bdyPosition = el.getAbsolutPosition(new Date());
-      const bdyRadius = el.radiousBody / scaleFactor * 100;
-      const xyzPosition = [bdyPosition.X / scaleFactor, bdyPosition.Y / scaleFactor, bdyPosition.Z / scaleFactor];
+      const bdyRadius = el.radiousBody / global.scaleFactor;
+      const xyzPosition = [bdyPosition.X / global.scaleFactor, bdyPosition.Y / global.scaleFactor, bdyPosition.Z / global.scaleFactor];
       const bdy = new Body(bdyRadius, xyzPosition, el.textureFilename);
       const bdyMesh = bdy.createMesh();
+      el.attatchMesh(bdyMesh);
       this.scene.add(bdyMesh);
 
-      const orbit = new Orbit(
-        bdyPosition.A / scaleFactor, bdyPosition.EC,
-        [bdyPosition.W * Math.PI / 180, bdyPosition.IN * Math.PI / 180, bdyPosition.OM * Math.PI / 180],
-        el.orbitColor
-      );
+      const orbit = new Orbit(bdyPosition.A / global.scaleFactor, bdyPosition.EC, [0, 90, 0], el.orbitColor);
       const orbitLine = orbit.createLine();
       this.scene.add(orbitLine);
 
@@ -110,7 +107,12 @@ class Canvas extends Component {
     this.pastTime = currentTime;
 
     if (this.props.data.playing) {
-      this.props.updateData({ epoch: new Date(this.props.data.epoch.valueOf() + deltaTime) });
+      const newEpoch = new Date(this.props.data.epoch.valueOf() + deltaTime);
+      this.props.updateData({ epoch: newEpoch });
+
+      bodies.forEach((el) => {
+        el.updateMeshPosition(newEpoch, global.scaleFactor);
+      })
     }
 
     for (let i = 0; i < this.textlabels.length; i++) {
