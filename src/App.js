@@ -8,18 +8,27 @@ class App extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { data: {} };
+    this.state = {
+      data: {
+        centralBody: 0,
+        playing: false,
+        speed: 10,
+        epoch: new Date(),
+      },
+    };
+
+    this.updateData = this.updateData.bind(this);
   }
 
   updateData(data) {
-    this.setState({ data });
+    this.setState(Object.assign(this.state.data, data));
   }
 
   render() {
     return (
       <div className="App">
         <UI data={this.state.data} updateData={this.updateData}>
-          <Canvas data={this.state.data} />
+          <Canvas data={this.state.data} updateData={this.updateData} />
         </UI>
       </div>
     );

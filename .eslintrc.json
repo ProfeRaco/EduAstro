@@ -11,5 +11,8 @@
     "env": {
       "browser": true,
       "mocha": true
+    },
+    "rules": {
+      "no-restricted-globals": [0]
     }
 }

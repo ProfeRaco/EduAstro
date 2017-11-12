@@ -2,6 +2,10 @@
 import React from 'react';
 
 import Paper from 'material-ui/Paper';
+import { Tabs, Tab } from 'material-ui/Tabs';
+
+import Details from './Details';
+import News from './News';
 
 function Menu(props) {
   return (
@@ -17,7 +21,14 @@ function Menu(props) {
           display: 'block',
         }}
       >
-        {'asdf'}
+        <Tabs>
+          <Tab label="Details" >
+            <Details {...props} />
+          </Tab>
+          <Tab label="News" >
+            <News {...props} />
+          </Tab>
+        </Tabs>
       </Paper>
     </div>
   );
