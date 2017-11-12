@@ -12,7 +12,10 @@ class Canvas extends Component {
     super(props);
 
     this.animate = this.animate.bind(this);
+    this.createTextLabel = this.createTextLabel.bind(this);
     this.threeRender = this.threeRender.bind(this);
+
+    this.textlabels = [];
 
     this.scene = new THREE.Scene();
     this.camera = new THREE.PerspectiveCamera(45, (window.innerWidth - 350) / (window.innerHeight - 4), 0.1, 1e10);
@@ -36,18 +39,8 @@ class Canvas extends Component {
     // const helper = new THREE.CameraHelper( light.shadow.camera )
     // this.scene.add( helper )
 
-    bodies.forEach((el, i) => {
-      const scaleFactor = 60268;
-      const bdyPosition = el.getAbsolutPosition(new Date());
-      const bdyRadius = el.radiousBody / scaleFactor;
-      const xyzPosition = [bdyPosition.X / scaleFactor, bdyPosition.Y / scaleFactor, bdyPosition.Z * scaleFactor];
-      const bdy = new Body(bdyRadius, xyzPosition, el.textureFilename);
-      const bdyMesh = bdy.createMesh();
-      this.scene.add(bdyMesh);
-      const orbit = new Orbit(bdyPosition.A / scaleFactor, bdyPosition.EC, [0, 0, 0], el.orbitColor);
-      const orbitLine = orbit.createLine();
-      this.scene.add(orbitLine);
-    });
+    // Deleted . plane creation
+
     // const sun = new Body(0.25, [0, 0, 0], 'img/textures/sun.jpg')
     // const sunMesh = sun.createMesh()
     // this.scene.add(sunMesh)
@@ -78,24 +71,91 @@ class Canvas extends Component {
   }
 
   componentDidMount() {
-    document.getElementById('render-here').appendChild(this.renderer.domElement);
+    this.container = document.getElementById('render-here');
+    this.container.appendChild(this.renderer.domElement);
+
+    bodies.forEach((el, i) => {
+      const scaleFactor = 60268;
+      const bdyPosition = el.getAbsolutPosition(new Date());
+      const bdyRadius = el.radiousBody / scaleFactor;
+      const xyzPosition = [bdyPosition.X / scaleFactor, bdyPosition.Y / scaleFactor, bdyPosition.Z / scaleFactor];
+      const bdy = new Body(bdyRadius, xyzPosition, el.textureFilename);
+      const bdyMesh = bdy.createMesh();
+      this.scene.add(bdyMesh);
+
+      const orbit = new Orbit(bdyPosition.A / scaleFactor, bdyPosition.EC, [0, 90, 0], el.orbitColor);
+      const orbitLine = orbit.createLine();
+      this.scene.add(orbitLine);
+
+      const text = this.createTextLabel(this);
+      text.setHTML(`Planet ${i}`);
+      text.setParent(bdyMesh);
+      this.textlabels.push(text);
+      this.container.appendChild(text.element);
+    });
   }
 
   animate(currentTime) {
+    requestAnimationFrame(this.animate);
+    this.threeRender(this.scene, this.camera, currentTime);
+    this.controls.update();
+  }
+
+  threeRender(scene, camera, currentTime) {
     const deltaTime = (currentTime - this.pastTime) * this.props.data.speed;
     this.pastTime = currentTime;
 
     if (this.props.data.playing) {
-      this.props.updateData({ epoch: this.props.data.epoch.setTime(this.props.data.epoch.valueOf() + deltaTime)});
+      this.props.updateData({ epoch: new Date(this.props.data.epoch.valueOf() + deltaTime) });
     }
 
-    requestAnimationFrame(this.animate);
-    this.threeRender(this.scene, this.camera);
-    this.controls.update();
+    for (let i = 0; i < this.textlabels.length; i++) {
+      this.textlabels[i].updatePosition();
+    }
+
+    this.renderer.render(scene, camera);
   }
 
-  threeRender(scene, camera) {
-    this.renderer.render(scene, camera);
+  createTextLabel() {
+    const div = document.createElement('div');
+    div.className = 'text-label';
+    div.style.position = 'absolute';
+    div.style.width = 100;
+    div.style.height = 100;
+    div.style.color = 'white';
+    div.innerHTML = 'hi there!';
+    div.style.top = -1000;
+    div.style.left = -1000;
+
+    const _this = this;
+
+    return {
+      element: div,
+      parent: false,
+      position: new THREE.Vector3(0, 0, 0),
+      setHTML(html) {
+        this.element.innerHTML = html;
+      },
+      setParent(threejsobj) {
+        this.parent = threejsobj;
+      },
+      updatePosition() {
+        if (this.parent) {
+          this.position.copy(this.parent.position);
+        }
+
+        const coords2d = this.get2DCoords(this.position, _this.camera);
+        window.p = this.element;
+        this.element.style.left = `${coords2d.x}px`;
+        this.element.style.top = `${coords2d.y}px`;
+      },
+      get2DCoords(position, camera) {
+        const vector = position.project(camera);
+        vector.x = ((vector.x + 1) / 2) * (window.innerWidth - 350);
+        vector.y = -((vector.y - 1) / 2) * (window.innerHeight - 4);
+        return vector;
+      }
+    };
   }
 
   render() {
