@@ -19,7 +19,8 @@ function newtonRaphson(fun, der, initial) {
 }
 
 class Body {
-  constructor(centralBody, ephemerides, data, description, textureFilename, orbitColor) {
+  constructor(name, centralBody, ephemerides, data, description, textureFilename, orbitColor) {
+    this.name = name;
     this.centralBody = centralBody;
     this.ephemerides = ephemerides;
     this.mu = data.mu;
@@ -33,6 +34,7 @@ class Body {
     this.description = description;
     this.textureFilename = textureFilename;
     this.orbitColor = orbitColor;
+    this.isBody = true;
 
     this.computeRadiousOfInfluence();
 

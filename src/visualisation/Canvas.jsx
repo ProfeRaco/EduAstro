@@ -5,8 +5,6 @@ import TrackballControls from 'three-trackballcontrols';
 import Body from './Body';
 import Orbit from './Orbit';
 
-import { bodies } from '../engine/initialize';
-
 class Canvas extends Component {
   constructor(props) {
     super(props);
@@ -89,7 +87,7 @@ class Canvas extends Component {
     this.sphereInter.visible = false;
     this.scene.add(this.sphereInter);
 
-    bodies.forEach((el, i) => {
+    this.props.data.bodies.forEach((el, i) => {
       global.scaleFactor = 60268;
       const bdyPosition = el.getAbsolutPosition(new Date());
       const bdyRadius = el.radiousBody / global.scaleFactor * 100;
@@ -111,7 +109,7 @@ class Canvas extends Component {
       this.parentTransform.add(orbitLine);
 
       const text = this.createTextLabel(this);
-      text.setHTML(`Planet ${i}`);
+      text.setHTML(el.name);
       text.setParent(bdyMesh);
       this.textlabels.push(text);
       this.container.appendChild(text.element);
@@ -168,12 +166,12 @@ class Canvas extends Component {
       epoch = new Date(epoch.valueOf() + deltaTime);
       this.props.updateData({ epoch });
 
-      bodies.forEach((el) => {
+      this.props.data.bodies.forEach((el) => {
         el.updateMeshPosition(epoch, global.scaleFactor);
       })
     }
 
-    const bPos = bodies[this.props.data.centralBody].msh.position;
+    const bPos = this.props.data.bodies[this.props.data.centralBody].msh.position;
     const vector = new THREE.Vector3(bPos.x, bPos.y, bPos.z);
     this.controls.target = vector;
     this.controls.update();

@@ -13,7 +13,7 @@ import neptuneOE from '../orbital_elements/json/neptune.json';
 
 // Create Bodys
 const Sun = new Body(
-  null,
+  'Sun', null,
   null,
   {
     mu: 1.3271244004193938E11,
@@ -30,7 +30,7 @@ const Sun = new Body(
   0x000000,
 );
 const Mercury = new Body(
-  Sun,
+  'Mercury', Sun,
   mercuryOE,
   {
     mu: 22032.09,
@@ -47,7 +47,7 @@ const Mercury = new Body(
   0xd58340,
 );
 const Venus = new Body(
-  Sun,
+  'Venus', Sun,
   venusOE,
   {
     mu: 324858.63,
@@ -64,7 +64,7 @@ const Venus = new Body(
   0xf0e442,
 );
 const Earth = new Body(
-  Sun,
+  'Earth', Sun,
   earthOE,
   {
     mu: 398600.440,
@@ -81,7 +81,7 @@ const Earth = new Body(
   0x6bdb54,
 );
 const Mars = new Body(
-  Sun,
+  'Mars', Sun,
   marsOE,
   {
     mu: 42828.3,
@@ -98,7 +98,7 @@ const Mars = new Body(
   0x50e08a,
 );
 const Jupiter = new Body(
-  Sun,
+  'Jupiter', Sun,
   jupiterOE,
   {
     mu: 126686511,
@@ -115,7 +115,7 @@ const Jupiter = new Body(
   0x5fddd1,
 );
 const Saturn = new Body(
-  Sun,
+  'Saturn', Sun,
   saturnOE,
   {
     mu: 37931207.8,
@@ -132,7 +132,7 @@ const Saturn = new Body(
   0x5855fa,
 );
 const Uranus = new Body(
-  Sun,
+  'Uranus', Sun,
   uranusOE,
   {
     mu: 5793966,
@@ -149,7 +149,7 @@ const Uranus = new Body(
   0xcd63db,
 );
 const Neptune = new Body(
-  Sun,
+  'Neptune', Sun,
   neptuneOE,
   {
     mu: 6835107,

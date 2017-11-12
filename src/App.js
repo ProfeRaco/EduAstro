@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import './App.css';
 
-import Canvas from './visualisation/Canvas.jsx';
-import UI from './interface/UI'
+import Canvas from './visualisation/Canvas';
+import UI from './interface/UI';
+
+import { bodies } from './engine/initialize';
 
 class App extends Component {
   constructor(props) {
@@ -11,12 +13,11 @@ class App extends Component {
     this.state = {
       data: {
         centralBody: 0,
+        selectedBody: 0,
         playing: false,
         speed: 500000,
         epoch: new Date(),
-        spacecraft: {
-          initialBody: 0,
-        },
+        bodies,
       },
     };
 

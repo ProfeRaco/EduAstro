@@ -36,25 +36,28 @@ const theme = {
 function UI(props) {
   return (
     <MuiThemeProvider muiTheme={getMuiTheme(theme)}>
-      <TopBar
-        data={props.data}
-        updateData={props.updateData}
-      />
-      <div style={{ display: 'flex', width: '100%', height: '100%' }}>
-        <div
-          style={{
-            flex: '1',
-          }}
-        >
-          {props.children}
-        </div>
-        <Menu
-          style={{
-            flex: '1',
-          }}
+      <div>
+        <TopBar
           data={props.data}
           updateData={props.updateData}
         />
+        <div style={{ display: 'flex', width: '100%', height: '100%' }}>
+          <div
+            style={{
+              flex: '1',
+              overflow: 'hidden',
+            }}
+          >
+            {props.children}
+          </div>
+          <Menu
+            style={{
+              flex: '0 0 400px',
+            }}
+            data={props.data}
+            updateData={props.updateData}
+          />
+        </div>
       </div>
     </MuiThemeProvider>
   );

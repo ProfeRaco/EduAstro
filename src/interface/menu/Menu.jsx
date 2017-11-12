@@ -5,7 +5,6 @@ import Paper from 'material-ui/Paper';
 import { Tabs, Tab } from 'material-ui/Tabs';
 
 import Details from './Details';
-import Spacecraft from './Spacecraft';
 import News from './News';
 
 function Menu(props) {
@@ -25,9 +24,6 @@ function Menu(props) {
         <Tabs>
           <Tab label="Details" >
             <Details {...props} />
-          </Tab>
-          <Tab label="Spacecraft" >
-            <Spacecraft {...props} />
           </Tab>
           <Tab label="News" >
             <News {...props} />
