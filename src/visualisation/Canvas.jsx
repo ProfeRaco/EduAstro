@@ -62,15 +62,6 @@ class Canvas extends Component {
 
     this.camera.position.z = 50000;
 
-    this.controls = new TrackballControls(this.camera, document.body);
-    this.controls.rotateSpeed = 3;
-    this.controls.zoomSpeed = 1.2;
-    this.controls.panSpeed = 0.8;
-    this.controls.noRotate = false;
-    this.controls.noZoom = false;
-    this.controls.staticMoving = false;
-    this.controls.dynamicDampingFactor = 0.3;
-
     this.raycaster = new THREE.Raycaster();
     this.raycaster.linePrecision = 3;
 
@@ -81,6 +72,14 @@ class Canvas extends Component {
     this.container = document.getElementById('render-here');
     this.container.appendChild(this.renderer.domElement);
 
+    this.controls = new TrackballControls(this.camera, this.container);
+    this.controls.rotateSpeed = 3;
+    this.controls.zoomSpeed = 1.2;
+    this.controls.panSpeed = 0.8;
+    this.controls.noRotate = false;
+    this.controls.noZoom = false;
+    this.controls.staticMoving = false;
+    this.controls.dynamicDampingFactor = 0.3;
 
     const geometry = new THREE.SphereGeometry(20);
     const material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
@@ -90,8 +89,9 @@ class Canvas extends Component {
 
     this.props.data.bodies.forEach((el, i) => {
       global.scaleFactor = 60268;
+      global.factor2 = 50;
       const bdyPosition = el.getAbsolutPosition(new Date());
-      const bdyRadius = el.radiousBody / global.scaleFactor * 100;
+      const bdyRadius = el.radiousBody / global.scaleFactor * global.factor2;
       const xyzPosition = [bdyPosition.X / global.scaleFactor, bdyPosition.Y / global.scaleFactor, bdyPosition.Z / global.scaleFactor];
       const bdy = new Body(bdyRadius, xyzPosition, el.textureFilename);
       const bdyMesh = bdy.createMesh();

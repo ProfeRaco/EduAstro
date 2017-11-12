@@ -6,9 +6,9 @@ import MenuItem from 'material-ui/MenuItem';
 import TextField from 'material-ui/TextField';
 
 function Details(props) {
-  console.log('props', props, props.data.bodies)
+  const ht = window.innerHeight - 130
   return (
-    <div style={{ padding: 7 }}>
+    <div style={{ padding: 7, height: `${ht}px`, overflow: 'auto', boxSizing: 'border-box' }}>
       <SelectField
         floatingLabelText="Center camera on:"
         value={props.data.centralBody}
@@ -33,8 +33,12 @@ function Details(props) {
         const selectedBody = props.data.bodies[props.data.selectedBody];
         if (selectedBody.isBody) {
           return (
-            <div>
-              {selectedBody.description}
+            <div style={{margin: '10px 10px 10px 10px'}}>
+              <img
+                style={{width: '80%', margin: 'auto', display: 'block'}}
+                src={selectedBody.imageFilename} alt=""
+              />
+              <p style={{textAlign: 'justify'}}>{selectedBody.description}</p>
             </div>
           );
         }

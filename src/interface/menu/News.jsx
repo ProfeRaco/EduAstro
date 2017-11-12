@@ -3,7 +3,6 @@ import React from 'react';
 
 function News(props) {
   const ht = window.innerHeight - 130
-  console.log(ht)
   return (
     <div style={{height: `${ht}px`, overflow: 'scroll'}}>
       <a

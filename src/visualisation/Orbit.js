@@ -11,7 +11,7 @@ class Orbit {
   createLine() {
     const b = this.a * Math.sqrt(1 - (this.e ** 2));
     const ellipseCurve = new THREE.EllipseCurve(0, 0, this.a, b)
-    const ellipsePoints = ellipseCurve.getPoints(50)
+    const ellipsePoints = ellipseCurve.getPoints(200)
     const ellipseGeometry = new THREE.BufferGeometry().setFromPoints(ellipsePoints)
     const ellipseMaterial = new THREE.LineBasicMaterial({ color: this.color })
     const ellipse = new THREE.Line(ellipseGeometry, ellipseMaterial)
